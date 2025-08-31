@@ -8,12 +8,12 @@ export default async function handler(req, res) {
   const { message, persona } = req.body;
 
   const client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY, // ✅ safe in Vercel env
+    apiKey: process.env.GOOGLE_API_KEY, // ✅ safe in Vercel env
   });
 
   try {
     const response = await client.chat.completions.create({
-      model: "gpt-4.1-mini",
+      model: 'gemini-1.5-flash',
       messages: [
         {
           role: "system",
