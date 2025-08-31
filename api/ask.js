@@ -14,6 +14,7 @@ export default async function handler(req, res) {
   try {
     const response = await client.chat.completions.create({
       model: 'gemini-1.5-flash',
+      baseURL: 'https://generativelanguage.googleapis.com/v1beta/openai/',
       messages: [
         {
           role: "system",
