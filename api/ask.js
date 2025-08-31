@@ -21,8 +21,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing message or persona" });
     }
 
-    if (!process.env.OPENAI_API_KEY) {
-      return res.status(500).json({ error: "Missing OPENAI_API_KEY env var" });
+    if (!process.env.GOOGLE_API_KEY) {
+      return res.status(500).json({ error: "Missing GOOGLE_API_KEY env var" });
     }
 
     const client = new OpenAI({
