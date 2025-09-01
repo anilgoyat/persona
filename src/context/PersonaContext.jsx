@@ -62,6 +62,7 @@ const askPersona = async (personaId, userMessage) => {
     });
 
     const data = await res.json();
+    console.log("🔵 API Response:", data);
     addMessage(personaId, { from: "persona", text: data.reply });
   } catch (err) {
     addMessage(personaId, { from: "persona", text: "⚠️ Error fetching reply" });
