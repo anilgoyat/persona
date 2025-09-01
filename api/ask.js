@@ -1,11 +1,14 @@
-export default async function handler(req, res) {
-  console.log("🔵 Gemini API Key:", process.env.GEMINI_API_KEY);
+import { generatePersonaPrompt } from "../src/lib/promptGenerator.js";
 
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+export default async function handler(req, res) {
+  const { message, history, persona } = req.body;
+
+  if (!message || !persona) {
+    return res.status(400).json({ reply: "Invalid request" });
   }
 
-  const { message, history = [] } = req.body;
+  const prompt = generatePersonaPrompt(persona, message);
+
   try {
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
@@ -14,30 +17,22 @@ export default async function handler(req, res) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [
-            ...history.map((m) => ({
-              role: m.from === "user" ? "user" : "model",
-              parts: [{ text: m.text }],
-            })),
-            { role: "user", parts: [{ text: message }] },
+            {
+              role: "user",
+              parts: [{ text: prompt }],
+            },
           ],
         }),
       }
     );
 
     const data = await response.json();
+    const reply =
+      data.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ No reply";
 
-    // Send full raw data back for debugging
-    res.status(200).json({
-      raw: data,
-      reply:
-        data.candidates?.[0]?.content?.parts
-          ?.map((p) => p.text || "")
-          .join("\n") || "No reply",
-    });
+    res.status(200).json({ reply });
   } catch (err) {
-    res.status(500).json({
-      error: "Gemini request failed",
-      detail: err.message,
-    });
+    console.error("❌ Ask API error:", err);
+    res.status(500).json({ reply: "Server error" });
   }
 }
