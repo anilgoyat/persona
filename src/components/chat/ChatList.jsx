@@ -1,18 +1,15 @@
-import { useParams } from "react-router-dom";
-import { usePersona } from "../../context/PersonaContext";
 import ChatMessage from "./ChatMessage";
+import { memo } from "react";
 
-export default function ChatList() {
-  const { id } = useParams(); // personaId from URL
-  const { chats } = usePersona();
-
-  const messages = chats[id] || [];
-
+function ChatList({ messages }) {
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 dark:bg-gray-900">
+    <div className="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900">
       {messages.map((m, idx) => (
-        <ChatMessage key={idx} message={m} />
+        <ChatMessage key={idx} from={m.from} text={m.text} />
       ))}
     </div>
   );
 }
+
+// memo for performance → sirf tab re-render hoga jab messages array change hogi
+export default memo(ChatList);

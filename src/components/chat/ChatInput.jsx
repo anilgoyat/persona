@@ -1,16 +1,19 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { usePersona } from "../../context/PersonaContext";
 
-export default function ChatInput() {
+export default function ChatInput({ onSend }) {
   const [text, setText] = useState("");
-  const { id } = useParams();
-  const { askPersona } = usePersona();
 
-  const sendMessage = () => {
-    if (!text.trim()) return;
-    askPersona(id, text); // ✅ Direct AI call
-    setText("");
+  const handleSend = () => {
+    if (!text.trim()) return; // empty msg ignore
+    onSend(text);
+    setText(""); // clear input
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSend();
+    }
   };
 
   return (
@@ -20,10 +23,11 @@ export default function ChatInput() {
         placeholder="Type your message..."
         value={text}
         onChange={(e) => setText(e.target.value)}
+        onKeyDown={handleKeyPress}
         className="flex-1 p-2 rounded border dark:bg-gray-800 dark:border-gray-600"
       />
       <button
-        onClick={sendMessage}
+        onClick={handleSend}
         className="px-4 py-2 bg-purple-600 text-white rounded"
       >
         ➤
