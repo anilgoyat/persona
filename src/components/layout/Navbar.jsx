@@ -1,6 +1,7 @@
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { usePersona } from "../../context/PersonaContext";
 import { useEffect, useState } from "react";
+import { Home, ArrowLeft } from "lucide-react";  // ✅ Add icons
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -9,7 +10,6 @@ export default function Navbar() {
   const { getPersona } = usePersona();
   const persona = getPersona(id);
 
-  // ✅ Theme state
   const [dark, setDark] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
@@ -24,18 +24,36 @@ export default function Navbar() {
     }
   }, [dark]);
 
+  // ✅ check routes
+  const isChatPage = location.pathname.startsWith("/chat");
+  const isToolsDetailPage =
+    location.pathname.startsWith("/tools/") && location.pathname !== "/tools";
+
   return (
     <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow">
-      {/* Left - Back button (only show on /chat route) */}
+      {/* Left - Back/Home button */}
       <div className="flex items-center gap-3">
-        {location.pathname.startsWith("/chat") && (
+        {/* Back to Home (for chat pages) */}
+        {isChatPage && (
           <button
             onClick={() => navigate("/")}
-            className="text-gray-600 dark:text-gray-300 text-xl"
+            className="flex items-center gap-1 text-gray-600 dark:text-gray-300 text-sm font-medium hover:underline"
           >
-            ←
+            <ArrowLeft size={18} /> Back
           </button>
         )}
+
+        {/* Back to Tools Home (for tool detail pages only) */}
+        {isToolsDetailPage && (
+          <button
+            onClick={() => navigate("/tools")}
+            className="flex items-center gap-1 text-gray-600 dark:text-gray-300 text-sm font-medium hover:underline"
+          >
+            <Home size={18} /> Tools Home
+          </button>
+        )}
+
+        {/* Persona info (chat) */}
         {persona && (
           <div className="flex items-center gap-2">
             <img
