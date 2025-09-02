@@ -1,7 +1,7 @@
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams, Link } from "react-router-dom";
 import { usePersona } from "../../context/PersonaContext";
 import { useEffect, useState } from "react";
-import { Home, ArrowLeft } from "lucide-react";  // ✅ Add icons
+import { Home, ArrowLeft } from "lucide-react";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -24,16 +24,15 @@ export default function Navbar() {
     }
   }, [dark]);
 
-  // ✅ check routes
   const isChatPage = location.pathname.startsWith("/chat");
   const isToolsDetailPage =
     location.pathname.startsWith("/tools/") && location.pathname !== "/tools";
 
   return (
     <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow">
-      {/* Left - Back/Home button */}
+      {/* Left side buttons */}
       <div className="flex items-center gap-3">
-        {/* Back to Home (for chat pages) */}
+        {/* Back to Home (for chat) */}
         {isChatPage && (
           <button
             onClick={() => navigate("/")}
@@ -43,7 +42,7 @@ export default function Navbar() {
           </button>
         )}
 
-        {/* Back to Tools Home (for tool detail pages only) */}
+        {/* Back to Tools Home (for tool details) */}
         {isToolsDetailPage && (
           <button
             onClick={() => navigate("/tools")}
@@ -68,13 +67,21 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* Right - Theme toggle */}
-      <button
-        onClick={() => setDark(!dark)}
-        className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 text-sm"
-      >
-        {dark ? "🌙 Dark" : "🌞 Light"}
-      </button>
+      {/* Right side - Tools Link + Theme toggle */}
+      <div className="flex items-center gap-4">
+        <Link
+          to="/tools"
+          className="text-gray-700 dark:text-gray-200 font-medium hover:underline"
+        >
+          🛠 Tools
+        </Link>
+        <button
+          onClick={() => setDark(!dark)}
+          className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700 text-sm"
+        >
+          {dark ? "🌙 Dark" : "🌞 Light"}
+        </button>
+      </div>
     </div>
   );
 }
