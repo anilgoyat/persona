@@ -11,16 +11,16 @@ export default function Navbar() {
   const persona = getPersona(id);
 
   const [dark, setDark] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
+    return sessionStorage.getItem("theme") === "dark";
   });
 
   useEffect(() => {
     if (dark) {
       document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      sessionStorage.setItem("theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      sessionStorage.setItem("theme", "light");
     }
   }, [dark]);
 

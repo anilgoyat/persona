@@ -4,13 +4,21 @@ const PersonaContext = createContext();
 
 export const PersonaProvider = ({ children }) => {
   const [personas, setPersonas] = useState(() => {
-    const stored = localStorage.getItem("personas");
+    const stored = sessionStorage.getItem("personas");
     return stored ? JSON.parse(stored) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem("personas", JSON.stringify(personas));
+    sessionStorage.setItem("personas", JSON.stringify(personas));
   }, [personas]);
+
+
+  useEffect(() => {
+  const stored = sessionStorage.getItem("personas");
+  if (stored) {
+    setPersonas(JSON.parse(stored));
+  }
+  }, []);
 
 const addPersona = (persona) => {
   const id = persona.id || persona.name.toLowerCase().replace(/\s+/g, "-");

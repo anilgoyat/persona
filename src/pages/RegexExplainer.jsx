@@ -27,7 +27,6 @@ export default function RegexExplainer() {
       }
 
       const data = await res.json();
-      console.log("✅ API response:", data);
 
       if (data.explanation) {
         setResult(data.explanation);

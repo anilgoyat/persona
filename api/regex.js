@@ -41,7 +41,6 @@ Style:
     );
 
     const data = await response.json();
-    console.log("🔵 Gemini Raw:", JSON.stringify(data, null, 2));
 
     const explanation = data.candidates?.[0]?.content?.parts?.[0]?.text || "No explanation available";
 

@@ -45,7 +45,6 @@ Rules:
     );
 
     const data = await response.json();
-    console.log("🔵 Gemini Raw:", JSON.stringify(data, null, 2));
 
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
 
@@ -77,7 +76,6 @@ Rules:
       vision: details.vision || "Vision not available",
     };
 
-    console.log("🟢 Parsed Persona:", persona);
 
     res.status(200).json({ persona });
   } catch (err) {

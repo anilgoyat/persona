@@ -27,7 +27,6 @@ const handleSubmit = async (e) => {
     });
 
     const data = await res.json();
-    console.log("🔵 Persona API Response:", data);
 
     if (!data.persona) {
       alert("Persona generation failed (no persona returned).");

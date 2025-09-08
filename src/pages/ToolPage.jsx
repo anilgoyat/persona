@@ -3,17 +3,23 @@ import ToolCard from "../components/tools/ToolCard";
 export default function ToolPage() {
   const tools = [
     {
+  title: "📚 RAG Super Agent",
+  desc: "Hybrid Search + Re-ranking + Summarization with LLM",
+  path: "/tools/rag",
+  color: "from-blue-600 to-cyan-500",
+},
+    {
       title: "🔍 Regex Explainer",
       desc: "Understand or generate regex patterns easily.",
       path: "/tools/regex",
       color: "from-pink-500 to-purple-500",
     },
-   {
-  title: "🎨 CSS Playground",
-  desc: "Generate CSS snippets with Hinglish + Desi style explanation.",
-  path: "/tools/css",
-  color: "from-green-500 to-blue-500",
-}
+    {
+      title: "🎨 CSS Playground",
+      desc: "Generate CSS snippets with Hinglish + Desi style explanation.",
+      path: "/tools/css",
+      color: "from-green-500 to-blue-500",
+    }
   ];
 
   return (
