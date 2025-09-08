@@ -200,7 +200,7 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return safeJson(res, 405, { error: "Method not allowed" });
 
   try {
-    const { query, topK = 20, rerankN = 5 } = req.body || {};
+    const { query, topK = 5, rerankN = 5 } = req.body || {};
     if (!query || typeof query !== "string") return safeJson(res, 400, { error: "query (string) required" });
 
     // 1) embed query
